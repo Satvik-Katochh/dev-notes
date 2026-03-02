@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Tools for Devs — My Honest Take</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #161616;
+      --border: #222;
+      --text: #e8e8e8;
+      --muted: #777;
+      --accent: #f0c040;
+      --accent2: #4af0a0;
+      --code-bg: #1a1a1a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Geist', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    /* grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    /* header */
+    .header {
+      margin-bottom: 64px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      line-height: 1.15;
+      font-weight: 400;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      border-left: 2px solid var(--border);
+      padding-left: 14px;
+    }
+
+    /* sections */
+    .section {
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.15s; }
+    .section:nth-child(4) { animation-delay: 0.2s; }
+    .section:nth-child(5) { animation-delay: 0.25s; }
+    .section:nth-child(6) { animation-delay: 0.3s; }
+    .section:nth-child(7) { animation-delay: 0.35s; }
+
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 .icon {
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+
+    p { margin-bottom: 14px; color: #ccc; }
+
+    /* tip cards */
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .tip-card:hover { border-color: #444; }
+
+    .tip-card strong {
+      display: block;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .tip-card p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* comparison table */
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .compare th {
+      text-align: left;
+      padding: 10px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compare td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #1a1a1a;
+      color: #bbb;
+      vertical-align: top;
+    }
+
+    .compare tr:last-child td { border-bottom: none; }
+    .compare tr:hover td { background: var(--surface); }
+
+    .compare td:first-child {
+      color: var(--text);
+      font-weight: 400;
+      width: 40%;
+    }
+
+    .yes { color: var(--accent2); }
+    .no { color: #f07070; }
+    .mid { color: var(--accent); }
+
+    /* code block */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #aaa;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+
+    /* highlight callout */
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 14px 18px;
+      background: #1a1700;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #d4b84a;
+    }
+
+    .callout strong { color: var(--accent); }
+
+    /* tool pill links */
+    .tool-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--accent2);
+      text-decoration: none;
+      margin: 4px 4px 4px 0;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .tool-link:hover {
+      border-color: var(--accent2);
+      background: #0a1a12;
+    }
+
+    /* tldr */
+    .tldr {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .tldr-row {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid #1c1c1c;
+      font-size: 14px;
+      align-items: baseline;
+    }
+
+    .tldr-row:last-child { border-bottom: none; }
+
+    .tldr-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      min-width: 130px;
+      padding-top: 2px;
+    }
+
+    .tldr-value { color: #ccc; }
+    .tldr-value strong { color: var(--text); font-weight: 500; }
+
+    /* footer */
+    .footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .footer { flex-direction: column; gap: 8px; }
+      .tldr-label { min-width: 100px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="tag">Team Notes · AI Tools Poll</span>
+    <h1>AI Coding Tools —<br><em>my honest take</em></h1>
+    <p class="subtitle">What I actually use, what works, and a few tips picked up the hard way.</p>
+  </div>
+
+  <!-- My Pick -->
+  <div class="section">
+    <h2><span class="icon">🏆</span> My pick: Cursor</h2>
+    <p>I've tried a few tools, and Cursor is the one I keep going back to. The main reason is simple — you can <em>see</em> exactly what the AI changed. Inline diffs, right there. No hunting through files.</p>
+    <p>It's also just easy to get started with. No CLI setup, no config files. Open it, start coding.</p>
+    <p>On the Enterprise plan, you can switch models on the fly too — <code style="background:#1a1a1a; padding:2px 6px; border-radius:4px; font-family:'DM Mono',monospace; font-size:13px;">auto</code> mode handles 90% of tasks, and you can bump to a stronger model when you need it.</p>
+  </div>
+
+  <!-- Comparison -->
+  <div class="section">
+    <h2><span class="icon">⚖️</span> Cursor vs Claude Code</h2>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Haven't used Claude Code myself, but here's my read based on what I've seen and heard.</p>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Thing</th>
+          <th>Cursor</th>
+          <th>Claude Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Interface</td><td>GUI — familiar IDE</td><td>CLI</td></tr>
+        <tr><td>Getting started</td><td><span class="yes">Easy</span></td><td><span class="mid">Steeper curve</span></td></tr>
+        <tr><td>See what changed</td><td><span class="yes">Inline diffs ✓</span></td><td><span class="no">Not really</span></td></tr>
+        <tr><td>VS Code extension</td><td><span class="yes">Native ✓</span></td><td><span class="mid">Released, mixed reviews</span></td></tr>
+        <tr><td>Reputation</td><td>Team favourite</td><td>Widely praised, tech Twitter loves it</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>Bottom line:</strong> Claude Code is probably the more powerful tool — but the CLI workflow isn't for everyone. If you're comfortable in the terminal, worth trying.
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="section">
+    <h2><span class="icon">💡</span> Tips that actually help</h2>
+
+    <div class="tip-card">
+      <strong>01 — Plan before you build</strong>
+      <p>Use Plan Mode to write out what you want to build, review it, fix it, <em>then</em> start coding. Skipping this step is the fastest way to end up with a mess halfway through.</p>
+    </div>
+
+    <div class="tip-card">
+      <strong>02 — New feature = new chat</strong>
+      <p>Don't keep adding to the same conversation forever. Start a fresh chat for each feature. Keeps the context clean, keeps the output sharp.</p>
+    </div>
+
+    <div class="tip-card">
+      <strong>03 — Ask for questions before writing code</strong>
+      <p>Before any big prompt, say: <em>"Before we start, ask me clarifying questions and flag edge cases."</em> This one habit saves a ton of back and forth.</p>
+    </div>
+  </div>
+
+  <!-- Speech to text -->
+  <div class="section">
+    <h2><span class="icon">🎙️</span> Speech-to-text: underrated</h2>
+    <p>Writing long prompts by hand gets tedious. I use <strong>Whisper Flow</strong> (by Tanay, founder of MIIT) for this — fast, accurate, works great for long prompts.</p>
+    <p>Free alternative: <strong>whisper.cpp</strong> — runs locally, no subscription, same quality.</p>
+    <p>Genuinely saves a lot of time once you get used to it.</p>
+  </div>
+
+  <!-- Frontend -->
+  <div class="section">
+    <h2><span class="icon">🎨</span> Frontend-specific tips</h2>
+    <p>Two Claude Code skills worth knowing about if you do frontend work:</p>
+
+    <div class="tip-card">
+      <strong>frontend-design — by Anthropic</strong>
+      <p>Fixes the "AI slop" problem — bland layouts, purple gradients, generic fonts. Forces the model to make actual design choices.</p>
+    </div>
+
+    <div class="tip-card">
+      <strong>react-best-practices — by Vercel</strong>
+      <p>Prevents common AI mistakes like abusing useEffect or causing waterfall requests. 45+ engineering standards in one skill. Heads up: you need to explicitly tell Claude to use it before coding.</p>
+    </div>
+
+    <p style="margin-top: 20px;">Links:</p>
+    <a class="tool-link" href="https://github.com/anthropics/claude-code/blob/main/plugins/frontend-design/skills/frontend-design/SKILL.md" target="_blank">↗ frontend-design skill</a>
+    <a class="tool-link" href="https://github.com/vercel-labs/agent-skills/tree/react-best-practices/skills/react-best-practices" target="_blank">↗ react-best-practices skill</a>
+    <a class="tool-link" href="https://www.reddit.com/r/ChatGPTCoding/comments/1f51y8s/a_collection_of_prompts_for_generating_high/" target="_blank">↗ backend prompt collection</a>
+
+    <p style="margin-top: 24px; font-size:14px; color:var(--muted);">For design prompts, I also use this one appended to Plan Mode — taken from the Anthropic Cookbook:</p>
+
+    <div class="code-block">Make creative, distinctive frontend design. Avoid generic AI aesthetics:<br>
+— No Inter, Roboto, or system fonts<br>
+— No purple gradients on white<br>
+— No cookie-cutter layouts<br><br>
+Use real typography, cohesive color, subtle motion.<br>
+Vary between light and dark. Think outside the box.</div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="section">
+    <h2><span class="icon">📋</span> TL;DR</h2>
+    <div class="tldr">
+      <div class="tldr-row">
+        <span class="tldr-label">Tool</span>
+        <span class="tldr-value"><strong>Cursor</strong> — easy to learn, great diffs, flexible models</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Workflow</span>
+        <span class="tldr-value">Plan → review → iterate → build</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Chat habit</span>
+        <span class="tldr-value">New feature = new chat, always</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Prompting</span>
+        <span class="tldr-value">Ask for clarifying questions before big prompts</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Speech</span>
+        <span class="tldr-value">Whisper Flow or whisper.cpp — worth it</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Frontend</span>
+        <span class="tldr-value">Use the design + react-best-practices skills</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Add your own tips — this is a living doc 🙌</span>
+    <span>2026</span>
+  </div>
+
+</div>
+</body>
+</html>

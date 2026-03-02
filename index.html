@@ -95,9 +95,6 @@
       font-weight: 400;
       margin-bottom: 20px;
       letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
     p { margin-bottom: 14px; color: #ccc; }
@@ -212,37 +209,6 @@
       background: #0a1a12;
     }
 
-    .tldr {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
-    }
-
-    .tldr-row {
-      display: flex;
-      gap: 16px;
-      padding: 10px 0;
-      border-bottom: 1px solid #1c1c1c;
-      font-size: 14px;
-      align-items: baseline;
-    }
-
-    .tldr-row:last-child { border-bottom: none; }
-
-    .tldr-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      min-width: 130px;
-      padding-top: 2px;
-    }
-
-    .tldr-value { color: #ccc; }
-    .tldr-value strong { color: var(--text); font-weight: 500; }
-
     .footer {
       margin-top: 80px;
       padding-top: 24px;
@@ -258,6 +224,10 @@
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    @media (max-width: 600px) {
+      .footer { flex-direction: column; gap: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -271,13 +241,66 @@
 
   <div class="section">
     <h2>My pick: Cursor</h2>
-    <p>I have tried a few tools, and Cursor is the one I return to consistently. The biggest reason is clarity. You can see exactly what the AI changed with inline diffs. No guesswork.</p>
-    <p>It is straightforward to start with. Open it and begin.</p>
+    <p>I have tried a few AI coding tools. Cursor is the one I return to consistently. The main reason is clarity. You can see exactly what the AI changed with inline diffs. No guessing.</p>
+    <p>It is simple to start. Open it and begin coding.</p>
+    <p>On the Enterprise plan, switching models is seamless. Auto mode handles most tasks well, and you can move to a stronger model when required.</p>
+  </div>
+
+  <div class="section">
+    <h2>Cursor vs Claude Code</h2>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">I have not used Claude Code deeply myself. This is based on what I have seen and heard from others.</p>
+
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Thing</th>
+          <th>Cursor</th>
+          <th>Claude Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Interface</td><td>GUI, familiar IDE</td><td>CLI</td></tr>
+        <tr><td>Getting started</td><td><span class="yes">Easy</span></td><td><span class="mid">Steeper curve</span></td></tr>
+        <tr><td>See what changed</td><td><span class="yes">Inline diffs ✓</span></td><td><span class="no">Limited visibility</span></td></tr>
+        <tr><td>VS Code extension</td><td><span class="yes">Native ✓</span></td><td><span class="mid">Mixed reviews</span></td></tr>
+        <tr><td>Reputation</td><td>Team favorite</td><td>Widely praised</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      Claude Code may be more powerful. The CLI workflow works well for some, less for others.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Tips that help</h2>
+
+    <div class="tip-card">
+      <strong>01 · Plan before you build</strong>
+      <p>Outline what you want to build. Review it. Refine it. Then start coding.</p>
+    </div>
+
+    <div class="tip-card">
+      <strong>02 · New feature equals new chat</strong>
+      <p>Start a fresh conversation for each feature. Clean context leads to better output.</p>
+    </div>
+
+    <div class="tip-card">
+      <strong>03 · Ask for clarification first</strong>
+      <p>Before large prompts, ask the model to clarify requirements and edge cases.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Speech to text</h2>
+    <p>I use Whisper Flow for long prompts. It saves time.</p>
+    <p>A free alternative is whisper.cpp. It runs locally and works well.</p>
   </div>
 
   <div class="section">
     <h2>Frontend-specific tips</h2>
-    <p>If you work on frontend, these Claude skills are genuinely useful. This Reddit thread explains them well and is worth reading:</p>
+
+    <p>If you work on frontend, this Reddit article explains the two essential Claude skills clearly:</p>
 
     <a class="tool-link" href="https://www.reddit.com/r/ClaudeCode/comments/1qh56pl/two_essential_claude_skills_for_frontend/" target="_blank">
       Two essential Claude skills for frontend
@@ -285,16 +308,16 @@
 
     <div class="tip-card">
       <strong>frontend-design</strong>
-      <p>Helps avoid generic layouts and predictable design patterns.</p>
+      <p>Encourages deliberate design decisions and avoids generic layouts.</p>
     </div>
 
     <div class="tip-card">
       <strong>react-best-practices</strong>
-      <p>Prevents common React mistakes and enforces stronger engineering patterns.</p>
+      <p>Reduces common React mistakes and enforces stronger engineering patterns.</p>
     </div>
   </div>
 
- 
+
 
 </div>
 </body>

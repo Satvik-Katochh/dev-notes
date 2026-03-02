@@ -82,13 +82,6 @@
       animation: fadeUp 0.6s ease forwards;
     }
 
-    .section:nth-child(2) { animation-delay: 0.1s; }
-    .section:nth-child(3) { animation-delay: 0.15s; }
-    .section:nth-child(4) { animation-delay: 0.2s; }
-    .section:nth-child(5) { animation-delay: 0.25s; }
-    .section:nth-child(6) { animation-delay: 0.3s; }
-    .section:nth-child(7) { animation-delay: 0.35s; }
-
     h2 {
       font-family: 'Instrument Serif', serif;
       font-size: 1.5rem;
@@ -105,26 +98,6 @@
       border-radius: 10px;
       padding: 20px 22px;
       margin-bottom: 12px;
-      transition: border-color 0.2s;
-    }
-
-    .tip-card:hover { border-color: #444; }
-
-    .tip-card strong {
-      display: block;
-      font-weight: 500;
-      font-size: 14px;
-      color: var(--text);
-      margin-bottom: 6px;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.02em;
-    }
-
-    .tip-card p {
-      margin: 0;
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
     }
 
     .compare {
@@ -152,18 +125,14 @@
       vertical-align: top;
     }
 
-    .compare tr:last-child td { border-bottom: none; }
-    .compare tr:hover td { background: var(--surface); }
-
     .compare td:first-child {
       color: var(--text);
-      font-weight: 400;
       width: 40%;
     }
 
     .yes { color: var(--accent2); }
-    .no { color: #f07070; }
     .mid { color: var(--accent); }
+    .no { color: #f07070; }
 
     .code-block {
       background: var(--code-bg);
@@ -201,12 +170,32 @@
       color: var(--accent2);
       text-decoration: none;
       margin: 4px 4px 4px 0;
-      transition: border-color 0.2s, background 0.2s;
     }
 
-    .tool-link:hover {
-      border-color: var(--accent2);
-      background: #0a1a12;
+    .tldr {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .tldr-row {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid #1c1c1c;
+      font-size: 14px;
+    }
+
+    .tldr-row:last-child { border-bottom: none; }
+
+    .tldr-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      min-width: 130px;
     }
 
     .footer {
@@ -224,10 +213,6 @@
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    @media (max-width: 600px) {
-      .footer { flex-direction: column; gap: 8px; }
-    }
   </style>
 </head>
 <body>
@@ -236,19 +221,19 @@
   <div class="header">
     <span class="tag">Team Notes · AI Tools Poll</span>
     <h1>AI Coding Tools<br><em>My two cents</em></h1>
-    <p class="subtitle">What I use, what works for me, and a few lessons learned along the way.</p>
+    <p class="subtitle">What I actually use, what works well, and a few practical lessons.</p>
   </div>
 
   <div class="section">
     <h2>My pick: Cursor</h2>
-    <p>I have tried a few AI coding tools. Cursor is the one I return to consistently. The main reason is clarity. You can see exactly what the AI changed with inline diffs. No guessing.</p>
-    <p>It is simple to start. Open it and begin coding.</p>
-    <p>On the Enterprise plan, switching models is seamless. Auto mode handles most tasks well, and you can move to a stronger model when required.</p>
+    <p>I have tried multiple tools. Cursor is the one I consistently return to. The main reason is clarity. You can see exactly what the AI changed with inline diffs. No guessing.</p>
+    <p>It is also easy to onboard. No heavy CLI setup. Open it and start building.</p>
+    <p>On the Enterprise plan, switching models is seamless. Auto mode handles most tasks well, and you can move to a stronger model when needed.</p>
   </div>
 
   <div class="section">
     <h2>Cursor vs Claude Code</h2>
-    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">I have not used Claude Code deeply myself. This is based on what I have seen and heard from others.</p>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">I have not used Claude Code deeply myself. This is based on observation and team feedback.</p>
 
     <table class="compare">
       <thead>
@@ -261,46 +246,46 @@
       <tbody>
         <tr><td>Interface</td><td>GUI, familiar IDE</td><td>CLI</td></tr>
         <tr><td>Getting started</td><td><span class="yes">Easy</span></td><td><span class="mid">Steeper curve</span></td></tr>
-        <tr><td>See what changed</td><td><span class="yes">Inline diffs ✓</span></td><td><span class="no">Limited visibility</span></td></tr>
-        <tr><td>VS Code extension</td><td><span class="yes">Native ✓</span></td><td><span class="mid">Mixed reviews</span></td></tr>
+        <tr><td>See what changed</td><td><span class="yes">Inline diffs</span></td><td><span class="no">Less transparent</span></td></tr>
+        <tr><td>VS Code extension</td><td><span class="yes">Native</span></td><td><span class="mid">Mixed reviews</span></td></tr>
         <tr><td>Reputation</td><td>Team favorite</td><td>Widely praised</td></tr>
       </tbody>
     </table>
 
     <div class="callout">
-      Claude Code may be more powerful. The CLI workflow works well for some, less for others.
+      Direct note for internal context: Anthropic is currently facing friction with US government entities. That creates potential vendor and supply chain risk. For tooling embedded in our core dev workflow, lower geopolitical exposure is preferable.
     </div>
   </div>
 
   <div class="section">
-    <h2>Tips that help</h2>
+    <h2>Tips that actually help</h2>
 
     <div class="tip-card">
       <strong>01 · Plan before you build</strong>
-      <p>Outline what you want to build. Review it. Refine it. Then start coding.</p>
+      <p>Use Plan Mode to outline what you want to build. Review it. Refine it. Then start coding.</p>
     </div>
 
     <div class="tip-card">
       <strong>02 · New feature equals new chat</strong>
-      <p>Start a fresh conversation for each feature. Clean context leads to better output.</p>
+      <p>Start a fresh conversation for each feature. Clean context produces better output.</p>
     </div>
 
     <div class="tip-card">
-      <strong>03 · Ask for clarification first</strong>
-      <p>Before large prompts, ask the model to clarify requirements and edge cases.</p>
+      <strong>03 · Ask for questions before writing code</strong>
+      <p>Before any large prompt, ask the model to clarify requirements and flag edge cases.</p>
     </div>
   </div>
 
   <div class="section">
     <h2>Speech to text</h2>
-    <p>I use Whisper Flow for long prompts. It saves time.</p>
-    <p>A free alternative is whisper.cpp. It runs locally and works well.</p>
+    <p>I use Whisper Flow for long prompts. It is fast and reliable.</p>
+    <p>Free alternative: whisper.cpp. Runs locally and works well.</p>
   </div>
 
   <div class="section">
     <h2>Frontend-specific tips</h2>
 
-    <p>If you work on frontend, this Reddit article explains the two essential Claude skills clearly:</p>
+    <p>This Reddit article explains the two essential Claude frontend skills clearly:</p>
 
     <a class="tool-link" href="https://www.reddit.com/r/ClaudeCode/comments/1qh56pl/two_essential_claude_skills_for_frontend/" target="_blank">
       Two essential Claude skills for frontend
@@ -308,16 +293,58 @@
 
     <div class="tip-card">
       <strong>frontend-design</strong>
-      <p>Encourages deliberate design decisions and avoids generic layouts.</p>
+      <p>Helps avoid generic layouts and predictable design patterns.</p>
     </div>
 
     <div class="tip-card">
       <strong>react-best-practices</strong>
-      <p>Reduces common React mistakes and enforces stronger engineering patterns.</p>
+      <p>Prevents common React mistakes and enforces stronger engineering standards.</p>
+    </div>
+
+    <p style="margin-top:20px;">Additional backend prompt collection:</p>
+    <a class="tool-link" href="https://www.reddit.com/r/ChatGPTCoding/comments/1f51y8s/a_collection_of_prompts_for_generating_high/" target="_blank">
+      Backend prompt collection
+    </a>
+
+    <p style="margin-top:24px; font-size:14px; color:var(--muted);">Design prompt example:</p>
+
+    <div class="code-block">
+Make creative, distinctive frontend design. Avoid generic AI aesthetics:
+- No Inter, Roboto, or system fonts
+- No purple gradients on white
+- No cookie-cutter layouts
+
+Use real typography, cohesive color, subtle motion.
+Vary between light and dark. Think outside the box.
     </div>
   </div>
 
+  <div class="section">
+    <h2>TL;DR</h2>
+    <div class="tldr">
+      <div class="tldr-row">
+        <span class="tldr-label">Tool</span>
+        <span>Cursor is clear, easy to onboard, and stable</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Workflow</span>
+        <span>Plan → review → iterate → build</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Chat habit</span>
+        <span>One feature, one chat</span>
+      </div>
+      <div class="tldr-row">
+        <span class="tldr-label">Risk</span>
+        <span>Prefer lower vendor exposure for core tooling</span>
+      </div>
+    </div>
+  </div>
 
+  <div class="footer">
+    <span>Internal note. Open for iteration.</span>
+    <span>2026</span>
+  </div>
 
 </div>
 </body>
